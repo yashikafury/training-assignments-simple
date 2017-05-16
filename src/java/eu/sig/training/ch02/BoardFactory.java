@@ -13,10 +13,7 @@ public class BoardFactory {
             for (int y = 0; y < height; y++) {
                 Square square = grid[x][y];
                 for (Direction dir : Direction.values()) {
-                    int dirX = (width + x + dir.getDeltaX()) % width;
-                    int dirY = (height + y + dir.getDeltaY()) % height;
-                    Square neighbour = grid[dirX][dirY];
-                    square.link(neighbour, dir);
+                	setLink(square, new DirectionPosition(dir, new PositionVolume(x, y, width, height)), grid);
                 }
             }
         }
@@ -24,6 +21,13 @@ public class BoardFactory {
         return board;
     }
     // end::createBoard[]
+    
+    private void setLink(Square square, DirectionPosition dirPosition, Square[][] grid) {
+    	int dirX = dirPosition.dirPosX;
+        int dirY = dirPosition.dirPosY;
+        Square neighbour = grid[dirX][dirY];
+        square.link(neighbour, dirPosition.dir);
+    }
 }
 
 class Board {
